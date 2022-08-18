@@ -55,20 +55,11 @@ app.post('/customers/customer', (req, res) => {
     if (!name || !email || !phone) {
         return res.send("please fill all details")
     }
-    // const emailExists =conn.query(`select * from customer_data where email='${email}'`)
-    // if (emailExists === null) {
-    //     return res.send("email already exist")
-    // }
-
-    // const phoneExists =conn.query(`select * from customer_data where phone=${phone}`)
-    // if (phoneExists === ' ') {
-    //     return res.send("phone already exist")
-    // }
+    
 
     conn.query(`insert into customer_data (name,email,phone) values ('${name}','${email}',${phone}) `, (error, result) => {
         if (error) {
             console.log(error.message);
-            
             return res.send(error.message)
         }
         else {
