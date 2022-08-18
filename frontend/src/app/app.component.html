@@ -1,0 +1,108 @@
+<nav class="navbar navbar-light bg-light">
+    <div class="container-fluid">
+        <a class="navbar-brand">Customer List</a>
+        <form class="d-flex">
+            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addModal">
+                Add customer
+            </button>
+        </form>
+    </div>
+</nav>
+
+<table class="table mx-5 mt-3" style="width:92%;">
+    <thead>
+        <tr>
+            <th scope="col">name</th>
+            <th scope="col">email</th>
+            <th scope="col">phone</th>
+            <th scope="col">time</th>
+            <th scope="col">view</th>
+            <th scope="col">Del</th>
+
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let row of displayCustomer">
+            <td>{{row.name}}</td>
+            <td>{{row.email}}</td>
+            <td>{{row.phone}}</td>
+            <td>{{row.posted_date}}</td>
+            <td><button type="button" (click)="getSingleCustomer(row)" class="btn btn-primary" data-bs-toggle="modal"
+                    data-bs-target="#viewModal">
+                    View
+                </button>
+            </td>
+            <td><button type="button" class="btn btn-danger" (click)="removeCustomer(row)">
+                    Delete
+                </button>
+            </td>
+
+        </tr>
+    </tbody>
+</table>
+
+<div class="modal fade" id="viewModal" tabindex="-1" aria-labelledby="viewModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="viewModalLabel">Customer</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body" *ngFor="let row of singleCustomer">
+                <div class="col-12">
+                    <h5>Name: {{row.name}}</h5>
+                </div>
+                <div class="col-12">
+                    <h5>Email: {{row.email}}</h5>
+                </div>
+                <div class="col-12">
+                    <h5>Phone: {{row.phone}}</h5>
+                </div>
+                <div class="col-12">
+                    <h5>Time: {{row.posted_date}}</h5>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="addModal" tabindex="-1" aria-labelledby="addModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="addModalLabel">Modal title</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form [formGroup]="customerValue">
+                    <div class="div">
+                        <label>Name:</label> <input formControlName="customerName" type="text" class="form-control"
+                            id="exampleInputEmail1" aria-describedby="emailHelp">
+                        <span class="text-danger" *ngIf="customerValue.hasError('pattern','customerName')">Name must be
+                            in Alphabets</span>
+                    </div>
+
+                    <div class="div">
+                        <label>Email: </label> <input formControlName="email" type="email" class="form-control"
+                            id="exampleInputEmail1" aria-describedby="emailHelp">
+                            <span class="text-danger" *ngIf="customerValue.hasError('email','email')">Please enter proper email</span>
+                    </div>
+                    <div class="div">
+                        <label>Phone:</label> <input formControlName="phone" type="number" class="form-control"
+                            id="exampleInputEmail1" aria-describedby="emailHelp">
+                            <span class="text-danger" *ngIf="customerValue.hasError('pattern','phone')">Phone number must be
+                                in 10 digit Numbers</span>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="submit" class="btn btn-primary" (click)="postCustomer()" [disabled]="customerValue.invalid"
+                    data-bs-dismiss="modal">Add</button>
+            </div>
+        </div>
+    </div>
+</div>
